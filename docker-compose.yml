@@ -1,0 +1,79 @@
+version: "3.7"
+services:
+
+  portainer:
+    image: portainer/portainer:latest
+    container_name: portainer
+    restart: always
+    network_mode: "bridge"
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/portainer/portainer_data:/data
+      - /public:/public
+
+  vlmcsd:
+    image: mogeko/vlmcsd:latest
+    container_name: vlmcsd
+    restart: always
+    network_mode: "bridge"
+    ports:
+      - 1688:1688
+      
+  v2ray-client:
+    image: v2ray/official:latest
+    container_name: v2ray-client
+    restart: always
+    network_mode: "bridge"
+    ports:
+      - 10808:10808
+      - 10809:10809
+    volumes:
+      - /data/v2ray/google.json:/etc/v2ray/config.json
+
+  ngnix:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    network_mode: "bridge"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /data/nginx/config/conf.d:/etc/nginx/conf.d
+      - /data/www:/www
+      
+  homebridge:
+    image: oznu/homebridge:latest
+    container_name: homebridge
+    restart: always
+    network_mode: "host"
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ="Asia/Shanghai"
+      - HOMEBRIDGE_CONFIG_UI=1
+      - HOMEBRIDGE_CONFIG_UI_PORT=8080
+    volumes:
+      - /data/homebridge/config:/homebridge
+        
+  homeassistant:
+    image: homeassistant/home-assistant:latest
+    container_name: homeassistant
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /data/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      
+  qiandao:
+    image: fangzhengjin/qiandao:latest
+    container_name: qiandao
+    restart: always
+    network_mode: "bridge"
+    ports:
+      - 9001:80
+    volumes:
+      - /data/qiandao:/usr/src/app
