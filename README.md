@@ -17,3 +17,5 @@ compose version: "3.7"
 6、homeassistant 8123
 
 7、qiandao 9001
+
+8、oneindex 9003
