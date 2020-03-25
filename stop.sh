@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 # please put this shell script to the root of each node folder.
 # this shell script for stop the docker-cluster's containers designed in the one of linux server.
 echo "==================== start stop docker container =========================="
